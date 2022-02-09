@@ -9,6 +9,7 @@
 import appsettings from '../appsettings';
 import store from './store';
 import AvailableApiEndpoints from './availableApiEndpoints.js';
+import { API_DOS_PATH } from '../constants.js';
 
 export const availableApiEndpoints = new AvailableApiEndpoints();
 
@@ -85,6 +86,18 @@ export const subscribe = (apis, callback) => {
 	// TODO: Throttled callback
 
 	apis.forEach(api => {
+		if (api.apiPrefix === API_DOS_PATH) {
+			OBSERVED.set(api.toString(), {
+				api,
+				callbacks: [
+					callback
+				],
+				instancesCount: 1
+			});
+
+			return;
+		}
+
 		let isAvailable = availableApiEndpoints.firstLevelIncludes(api.path[0]);
 
 		const instance = OBSERVED.get(api.toString());

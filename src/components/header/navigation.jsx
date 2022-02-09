@@ -8,6 +8,7 @@
 import React from 'react';
 import DataBinder from '../databinder/databinder.jsx';
 import api from '../../api';
+import { apiDos } from '../../api';
 
 import Settings from '../settings/index.jsx';
 
@@ -20,6 +21,7 @@ import calculateCaches from '../../calculators/caches.js';
 import calculateSharedZones from '../../calculators/sharedzones.js';
 import calculateZoneSync from '../../calculators/zonesync.js';
 import calculateResolvers from '../../calculators/resolvers.js';
+import calculateProtectedObjects from '../../calculators/protectedobjects.js';
 
 import styles from './style.css';
 
@@ -63,6 +65,11 @@ export const SECTIONS = [
 		title: 'Resolvers',
 		hash: '#resolvers',
 		statusKey: 'resolvers'
+	},
+	{
+		title: 'Dos',
+		hash: '#dos',
+		statusKey: 'protected_objects'
 	}
 ];
 
@@ -104,6 +111,8 @@ export class Navigation extends React.Component {
 						statuses.server_zones.ready ||
 						statuses.location_zones.ready
 					);
+				} else if (statusKey === 'protected_objects') {
+					return statuses.protected_objects.ready;
 				} else {
 					return statuses[statusKey].ready;
 				}
@@ -176,7 +185,8 @@ export default DataBinder(Navigation, [
 	api.http.caches.process(calculateCaches),
 	api.slabs.process(calculateSharedZones),
 	api.stream.zone_sync.process(calculateZoneSync),
-	api.resolvers.process(calculateResolvers)
+	api.resolvers.process(calculateResolvers),
+	apiDos.protected_objects.process(calculateProtectedObjects)
 ], {
 	ignoreEmpty: true
 });

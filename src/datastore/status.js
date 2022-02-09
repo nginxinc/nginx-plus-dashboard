@@ -30,5 +30,9 @@ export default {
 	},
 	resolvers: {
 		ready: false
+	},
+	protected_objects: {
+		status: 'ok',
+		ready: false
 	}
 };

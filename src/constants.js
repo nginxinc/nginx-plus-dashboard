@@ -18,3 +18,7 @@ export const DEFAULT_RESOLVER_ERRORS_THRESHOLD_PERCENT = 3;
 export const API_CURRENT_VERSION = 6;
 export const API_PREFIX = '/api';
 export const API_PATH = `${API_PREFIX}/${API_CURRENT_VERSION}`;
+
+export const API_DOS_CURRENT_VERSION = 1;
+export const API_DOS_PREFIX = 'dos';
+export const API_DOS_PATH = `${API_PREFIX}/${API_DOS_PREFIX}/${API_DOS_CURRENT_VERSION}`;
