@@ -59,7 +59,7 @@
     "chai": "^4.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-preact-pure": "^2.2.0",
-    "karma": "^6.3.9",
+    "karma": "^6.3.16",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage": "2.0.2",
     "karma-coverage-istanbul-reporter": "3.0.3",
