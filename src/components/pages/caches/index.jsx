@@ -17,8 +17,92 @@ import utils from '../../../utils.js';
 import tooltips from '../../../tooltips/index.jsx';
 import { CacheStateTooltip, SharedZoneTooltip } from '../tooltips.jsx';
 
+
+
+import ChartsTable from '../../charts-table/index.jsx';
+import Chart from '../../chart/index.jsx';
+
+
 import styles from '../../table/style.css';
 import cachesStyles from './style.css';
+
+export const Colors = new Map([
+	['used', '#4FA932']
+]);
+export const Labels = new Map([
+	['used', 'Used']
+]);
+
+class Table extends ChartsTable {
+	getTitle(){
+		return 'Caches';
+	}
+
+	getHeadRow(){
+		return (
+			<tr>
+				<th/>
+				<th>Name</th>
+				<th>Used</th>
+			</tr>
+		);
+	}
+
+	getBody(){
+		const { activeCharts } = this.state;
+console.log(this.props.data)
+		return Array.from(this.props.data).map(
+			([name, { obj, history }]) => {
+				let cn = styles['chart-container'];
+				let title = 'Click to view rate graph';
+				let chart = null;
+
+				if (activeCharts.includes(name)) {
+					cn += ` ${ styles['chart-container_active'] }`;
+					title = 'Click to hide rate graph';
+					chart = (
+						<tr
+							key={ `chart_${ name }` }
+							className={ styles['chart-row'] }
+						>
+							<td
+								colspan="5"
+								className={ styles['left-align'] }
+							>
+								<Chart
+									data={ history }
+									colors={ Colors }
+									labels={ Labels }
+								/>
+							</td>
+						</tr>
+					);
+				}
+
+				return [
+					<tr
+						key={ `data_${ name }` }
+						className={ cn }
+						title={ title }
+						onClick={ this.toggleChart.bind(this, name) }
+					>
+						<td className={ `${ styles['center-align'] } ${ styles.bdr } ${ styles['chart-icon'] }` }>
+							<div className={ styles['chart-icon__icon'] } />
+						</td>
+						<td className={ `${ styles['left-align'] } ${ styles.bold } ${ styles.bdr }` }>{ name }</td>
+						<td>{ obj.used }</td>
+					</tr>,
+					chart
+				];
+			}
+		);
+	}
+}
+
+
+
+
+
 
 export class Caches extends React.Component {
 	static formatReadableBytes(value, measurementUnit){
@@ -30,7 +114,7 @@ export class Caches extends React.Component {
 	}
 
 	render() {
-		const { data: { caches } } = this.props;
+		const { data: { caches: { caches, cachesCharts } } } = this.props;
 
 		return (<div>
 			<h1>Caches</h1>
@@ -131,6 +215,10 @@ export class Caches extends React.Component {
 					}
 				</tbody>
 			</table>
+
+			<div>
+				<Table data={cachesCharts} />
+			</div>
 		</div>);
 	}
 }

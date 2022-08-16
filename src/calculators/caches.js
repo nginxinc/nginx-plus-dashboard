@@ -8,6 +8,7 @@
 
 import appsettings from '../appsettings';
 import utils from './utils.js';
+import factories from './factories.js';
 
 export const cachesHistory = new Proxy({}, {
 	get(history, cacheName) {
@@ -103,7 +104,12 @@ export function handleCache(STATS, slabs, cache, cacheName) {
 	return cache;
 }
 
-export default (caches, previous, STORE) => {
+const CachesMemo = {
+	history: {},
+	prevUpdatingPeriod: null,
+};
+
+export default (caches, previous, STORE, timeStart) => {
 	const { __STATUSES } = STORE;
 
 	if (caches === null || Object.keys(caches).length === 0) {
@@ -122,6 +128,10 @@ export default (caches, previous, STORE) => {
 		status: 'ok'
 	};
 	const { slabs } = STORE;
+	const cachesCharts = utils.createMapFromObject(
+		caches,
+		factories.addHistory.bind(null, CachesMemo, 1800, timeStart / 1000)
+	);
 
 	caches = utils.createMapFromObject(caches, handleCache.bind(null, STATS, slabs));
 
@@ -131,5 +141,8 @@ export default (caches, previous, STORE) => {
 	__STATUSES.caches.ready = true;
 	__STATUSES.caches.status = STATS.status;
 
-	return caches;
+	return {
+		caches,
+		cachesCharts,
+	};
 };
