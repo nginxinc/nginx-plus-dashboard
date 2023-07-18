@@ -7,12 +7,30 @@
 import utils from './utils.js';
 
 export function handleWorker(previousState, worker, updPeriod) {
+	const prevWorkerState = previousState.find(({ pid }) => worker.pid === pid);
+
+	if ('connections' in worker) {
+		let acceptedPerSec = '-';
+
+		if (
+			prevWorkerState &&
+			'connections' in prevWorkerState
+		) {
+			acceptedPerSec = utils.calculateSpeed(
+				prevWorkerState.connections.accepted,
+				worker.connections.accepted,
+				updPeriod
+			);
+		}
+
+		worker.connections.acceptedPerSec = acceptedPerSec;
+	}
+
 	if (
 		'http' in worker &&
 		'requests' in worker.http
 	) {
 		let reqsPerSec = '-';
-		const prevWorkerState = previousState.find(({ pid }) => worker.pid === pid);
 
 		if (
 			prevWorkerState &&

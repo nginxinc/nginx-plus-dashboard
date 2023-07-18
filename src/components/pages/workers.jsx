@@ -19,6 +19,7 @@ const WorkersSortingKeys = {
 	sortOrder: 'workersSortOrder_id',
 	sortOrderByPid: 'workersSortOrder_pid',
 	sortOrderByAccepted: 'workersSortOrder_connAccepted',
+	sortOrderByAcceptedPerSec: 'workersSortOrder_acceptedPerSeq',
 	sortOrderByDropped: 'workersSortOrder_connDropped',
 	sortOrderByActive: 'workersSortOrder_connActive',
 	sortOrderByIdle: 'workersSortOrder_connIdle',
@@ -35,6 +36,7 @@ export class Workers extends SortableTable {
 			...this.state,
 			sortOrderByPid: appsettings.getSetting(WorkersSortingKeys.sortOrderByPid, 'asc'),
 			sortOrderByAccepted: appsettings.getSetting(WorkersSortingKeys.sortOrderByAccepted, 'asc'),
+			sortOrderByAcceptedPerSec: appsettings.getSetting(WorkersSortingKeys.sortOrderByAcceptedPerSec, 'asc'),
 			sortOrderByDropped: appsettings.getSetting(WorkersSortingKeys.sortOrderByDropped, 'asc'),
 			sortOrderByActive: appsettings.getSetting(WorkersSortingKeys.sortOrderByActive, 'asc'),
 			sortOrderByIdle: appsettings.getSetting(WorkersSortingKeys.sortOrderByIdle, 'asc'),
@@ -89,6 +91,8 @@ export class Workers extends SortableTable {
 			sortByPid(this.state, workers);
 		} else if (activeSort === 'sortOrderByAccepted') {
 			sortByAccepted(this.state, workers);
+		} else if (activeSort === 'sortOrderByAcceptedPerSec') {
+			sortByConnsPerSeq(this.state, workers);
 		} else if (activeSort === 'sortOrderByDropped') {
 			sortByDropped(this.state, workers);
 		} else if (activeSort === 'sortOrderByActive') {
@@ -133,7 +137,7 @@ export class Workers extends SortableTable {
 							isActive={this.state.activeSort === 'sortOrderByPid'}
 							isInline
 						/>
-						<th colSpan={8}>Connections</th>
+						<th colSpan={10}>Connections</th>
 						<th colSpan={6}>Requests</th>
 					</tr>
 					<tr className={ `${ styles['right-align'] } ${ styles['sub-header'] }` }>
@@ -147,6 +151,17 @@ export class Workers extends SortableTable {
 							order={this.state.sortOrderByAccepted}
 							onChange={this.changeSortingBy.bind(this, 'sortOrderByAccepted')}
 							isActive={this.state.activeSort === 'sortOrderByAccepted'}
+							singleRow
+							isInline
+						/>
+
+						<th>Accepted/s</th>
+						<TableSortControl
+							firstSortLabel='Sort by Accepted/s - desc'
+							secondSortLabel='Sort by Accepted/s - asc'
+							order={this.state.sortOrderByAcceptedPerSec}
+							onChange={this.changeSortingBy.bind(this, 'sortOrderByAcceptedPerSec')}
+							isActive={this.state.activeSort === 'sortOrderByAcceptedPerSec'}
 							singleRow
 							isInline
 						/>
@@ -234,6 +249,7 @@ export class Workers extends SortableTable {
 								<td colSpan={2}>{ utils.formatNumber(id) }</td>
 								<td colSpan={2}>{ utils.formatNumber(pid) }</td>
 								<td colSpan={2}>{ utils.formatNumber(connections.accepted) }</td>
+								<td colSpan={2}>{ utils.formatNumber(connections.acceptedPerSec) }</td>
 								<td colSpan={2}>{ utils.formatNumber(connections.active) }</td>
 								<td colSpan={2}>{ utils.formatNumber(connections.idle) }</td>
 								<td colSpan={2}>{ utils.formatNumber(connections.dropped) }</td>
@@ -284,6 +300,30 @@ export function sortByAccepted(state, workers) {
 				'accepted' in b.connections
 			) {
 				return a.connections.accepted >= b.connections.accepted ? moreOrEqual : less;
+			} else return -1;
+		} else return 1;
+	});
+}
+
+export function sortByConnsPerSeq(state, workers) {
+	let moreOrEqual = 1;
+	let less = -1;
+
+	if (state.sortOrderByAcceptedPerSec === 'desc') {
+		moreOrEqual = -1;
+		less = 1;
+	}
+
+	workers.sort((a, b) => {
+		if (
+			'connections' in a &&
+			'acceptedPerSec' in a.connections
+		) {
+			if (
+				'connections' in b &&
+				'acceptedPerSec' in b.connections
+			) {
+				return a.connections.acceptedPerSec >= b.connections.acceptedPerSec ? moreOrEqual : less;
 			} else return -1;
 		} else return 1;
 	});
