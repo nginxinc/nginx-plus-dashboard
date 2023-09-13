@@ -678,11 +678,11 @@ describe('<UpstreamsList />', () => {
 		).to.have.lengthOf(1);
 		expect(wrapper.childAt(2).text(), 'this.renderPeers result').to.be.equal('renderPeers_result');
 		expect(instance.renderPeers.calledOnce, 'this.renderPeers called once').to.be.true;
-		expect(instance.renderPeers.args[0][0][0].id, '[1] peers order').to.be.equal('test_1');
-		expect(instance.renderPeers.args[0][0][1].id, '[1] peers order').to.be.equal('test_2');
-		expect(instance.renderPeers.args[0][0][2].id, '[1] peers order').to.be.equal('test_3');
-		expect(instance.renderPeers.args[0][0][3].id, '[1] peers order').to.be.equal('test_4');
-		expect(instance.renderPeers.args[0][0][4].id, '[1] peers order').to.be.equal('test_5');
+		expect(instance.renderPeers.args[0][0][0].id, 'peers order - default - "up" item').to.be.equal('test_1');
+		expect(instance.renderPeers.args[0][0][1].id, 'peers order - default - "unavail" item').to.be.equal('test_2');
+		expect(instance.renderPeers.args[0][0][2].id, 'peers order - default - "unhealthy" item').to.be.equal('test_3');
+		expect(instance.renderPeers.args[0][0][3].id, 'peers order - default - "draining" item').to.be.equal('test_4');
+		expect(instance.renderPeers.args[0][0][4].id, 'peers order - default - "down" item').to.be.equal('test_5');
 
 		expect(tooltips.useTooltip.calledOnce, 'useTooltip called once').to.be.true;
 		expect(
@@ -703,11 +703,26 @@ describe('<UpstreamsList />', () => {
 		});
 		wrapper.update();
 		expect(instance.renderPeers).to.be.calledOnce;
-		expect(instance.renderPeers.args[0][0][0].id, '[2] peers order').to.be.equal('test_5');
-		expect(instance.renderPeers.args[0][0][1].id, '[2] peers order').to.be.equal('test_3');
-		expect(instance.renderPeers.args[0][0][2].id, '[2] peers order').to.be.equal('test_2');
-		expect(instance.renderPeers.args[0][0][3].id, '[2] peers order').to.be.equal('test_1');
-		expect(instance.renderPeers.args[0][0][4].id, '[2] peers order').to.be.equal('test_4');
+		expect(
+			instance.renderPeers.args[0][0].findIndex(({ id }) => id === 'test_5'),
+			'[2] peers order - "bad" first - "down" item'
+		).to.be.within(0,2);
+		expect(
+			instance.renderPeers.args[0][0].findIndex(({ id }) => id === 'test_3'),
+			'[2] peers order - "bad" first - "unhealthy" item'
+		).to.be.within(0,2);
+		expect(
+			instance.renderPeers.args[0][0].findIndex(({ id }) => id === 'test_2'),
+			'[2] peers order - "bad" first - "unavail" item'
+		).to.be.within(0,2);
+		expect(
+			instance.renderPeers.args[0][0].findIndex(({ id }) => id === 'test_1'),
+			'[2] peers order - "bad" first - "up" item'
+		).to.be.within(3,4);
+		expect(
+			instance.renderPeers.args[0][0].findIndex(({ id }) => id === 'test_4'),
+			'[2] peers order - "bad" first - "draining" item'
+		).to.be.within(3,4);
 
 		expect(
 			apiUtils.isWritable.calledTwice,
