@@ -40,7 +40,7 @@ In the project folder check `coverage` directory – `index.html` includes every
 * [Live demo](https://demo.nginx.com/)
 
 ### 3rd party modules:
-* [@babel/core](https://www.npmjs.com/package/@babel/core) – 7.22.17
+* [@babel/core](https://www.npmjs.com/package/@babel/core) – 7.23.2
 * [@babel/plugin-transform-object-rest-spread](https://www.npmjs.com/package/@babel/plugin-proposal-object-rest-spread) – 7.22.15
 * [@babel/plugin-transform-runtime](https://www.npmjs.com/package/@babel/plugin-transform-runtime) – 7.22.15
 * [@babel/preset-env](https://www.npmjs.com/package/@babel/preset-env) – 7.22.15
@@ -48,7 +48,7 @@ In the project folder check `coverage` directory – `index.html` includes every
 * [autoprefixer](https://www.npmjs.com/package/autoprefixer) – 10.4.7
 * [babel-loader](https://github.com/babel/babel-loader) – 9.1.3
 * [babel-plugin-istanbul](https://github.com/istanbuljs/babel-plugin-istanbul) – 6.1.1
-* [chai](https://www.npmjs.com/package/chai) – 4.3.6
+* [chai](https://www.npmjs.com/package/chai) – 4.3.10
 * [core-js](https://www.npmjs.com/package/core-js) – 3.22.8
 * [css-loader](https://www.npmjs.com/package/css-loader) – 6.8.1
 * [cssnano](https://www.npmjs.com/package/cssnano) – 5.1.11
@@ -75,7 +75,7 @@ In the project folder check `coverage` directory – `index.html` includes every
 * [mocha](https://www.npmjs.com/package/mocha) – 10.0.0
 * [npm-font-open-sans](https://github.com/dasrick/npm-font-open-sans) – 1.1.0
 * [nyc](https://www.npmjs.com/package/nyc) – 15.1.0
-* [postcss](https://www.npmjs.com/package/postcss) – 8.4.14
+* [postcss](https://www.npmjs.com/package/postcss) – 8.4.31
 * [postcss-loader](https://www.npmjs.com/package/postcss-loader) – 7.3.3
 * [postcss-url](https://github.com/postcss/postcss-url/) – 10.1.3
 * [preact](https://www.npmjs.com/package/preact) – 10.7.3
