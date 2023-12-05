@@ -2,7 +2,7 @@
 
 Live activity monitoring tool for NGINX Plus.
 
-### Build process:
+### Build process
 
 Ensure you have all dependencies installed:
 ```
@@ -15,7 +15,7 @@ yarn build
 ```
 The result will be placed in `dist/dashboard.html`.
 
-### Testing:
+### Testing
 
 To not have tests mixed with sources all test files should be placed in related `__test__` folders in the project.
 
@@ -24,22 +24,31 @@ yarn test
 ```
 Running the above command will start karma server and build the coverage report.
 
-#### Tests report:
+#### Tests report
 
 `http://0.0.0.0:9876/` – start page of karma server where your tests will run
 
 `http://0.0.0.0:9876/debug.html` – all tests and their statuses
 
-#### Coverage report:
+#### Coverage report
 
 In the project folder check `coverage` directory – `index.html` includes everything you need.
 
-### Useful links:
+### Useful links
 * [Quick description](https://www.nginx.com/products/nginx/live-activity-monitoring/)
 * [Guide](https://docs.nginx.com/nginx/admin-guide/monitoring/live-activity-monitoring/#using-the-dashboard)
 * [Live demo](https://demo.nginx.com/)
 
-### 3rd party modules:
+### 3rd party modules
+
+#### Modules included in the result HTML
+* [core-js](https://www.npmjs.com/package/core-js) – 3.22.8
+* [npm-font-open-sans](https://github.com/dasrick/npm-font-open-sans) – 1.1.0
+* [preact](https://www.npmjs.com/package/preact) – 10.7.3
+* [regenerator-runtime](https://www.npmjs.com/package/regenerator-runtime) – 0.13.9
+* [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) – 2.0.4
+
+#### Full list of 3rd party modules
 * [@babel/core](https://www.npmjs.com/package/@babel/core) – 7.23.2
 * [@babel/plugin-transform-object-rest-spread](https://www.npmjs.com/package/@babel/plugin-proposal-object-rest-spread) – 7.22.15
 * [@babel/plugin-transform-runtime](https://www.npmjs.com/package/@babel/plugin-transform-runtime) – 7.22.15
